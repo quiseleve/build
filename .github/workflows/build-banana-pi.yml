@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release_suite:
-        description: 'sid'
+        description: 'Choose OS Release'
         required: true
         default: 'sid'
         type: choice

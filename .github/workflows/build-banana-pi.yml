@@ -1,0 +1,31 @@
+name: Build Banana Pi M1 Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_suite:
+        description: 'sid'
+        required: true
+        default: 'sid'
+        type: choice
+        options:
+          - sid
+          - bookworm
+
+jobs:
+  compile-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Armbian
+        uses: armbian/build@main
+        with:
+          armbian_token: "${{ secrets.GITHUB_TOKEN }}"
+          armbian_board: "bananapi"
+          armbian_kernel_branch: "edge"
+          armbian_release: "${{ github.event.inputs.release_suite }}"
+          armbian_ui: "minimal"
+          armbian_target: "build"
+          armbian_runner_clean: "true"

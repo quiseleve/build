@@ -15,6 +15,10 @@ on:
 jobs:
   compile-image:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -28,4 +32,10 @@ jobs:
           armbian_release: "${{ github.event.inputs.release_suite }}"
           armbian_ui: "minimal"
           armbian_target: "build"
-          armbian_runner_clean: "true"
+
+      - name: Upload Image Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: armbian-banana-pi-${{ github.event.inputs.release_suite }}
+          path: output/images/*.img.xz
+          if-no-files-found: error

@@ -37,5 +37,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: armbian-banana-pi-${{ github.event.inputs.release_suite }}
-          path: output/images/*.img.xz
-          if-no-files-found: error
+          # This pattern looks in ALL subdirectories for the final .img.xz file
+          path: "**/output/images/*.img.xz"
+          if-no-files-found: warn

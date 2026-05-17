@@ -33,10 +33,13 @@ jobs:
           armbian_ui: "minimal"
           armbian_target: "build"
 
+      - name: Fix Permissions
+        # This gives the runner ownership back so it can read the folders
+        run: sudo chown -R $USER:$USER .
+
       - name: Upload Image Artifact
         uses: actions/upload-artifact@v4
         with:
           name: armbian-banana-pi-${{ github.event.inputs.release_suite }}
-          # This pattern looks in ALL subdirectories for the final .img.xz file
-          path: "**/output/images/*.img.xz"
+          path: build/output/images/*.img.xz
           if-no-files-found: warn
